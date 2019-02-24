@@ -53,6 +53,30 @@
                     marker.openPopup();
                 });
         });
+
+        //DRAW GEOFENCE:
+        var polygon = {
+        'type': 'FeatureCollection',
+        'features': [
+            {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'Polygon',
+                    'coordinates': [
+                        [
+                            [-122.421297, 37.774972],
+                            [-122.432297, 37.774972],
+                            [-122.432297, 37.763972],
+                            [-122.421297, 37.763972]
+                        ]
+                    ]
+                }
+            }
+        ]
+    };
+    var geoJson = tomtom.L.geoJson(polygon, { style: { color: '#00d7ff', opacity: 0.8 } }).addTo(map);
+    map.fitBounds(geoJson.getBounds(), { padding: [5, 5] });
     </script>
 </body>
 </html>
