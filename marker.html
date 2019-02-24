@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class='use-all-space'>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset='UTF-8'>
+    <title>Maps SDK for Web - Draggable marker</title>
+    <meta name='viewport'
+          content='width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no'/>
+    <link rel='stylesheet' type='text/css' href='https://api.tomtom.com/maps-sdk-js/4.46.3/examples/sdk/map.css'/>
+    <link rel='stylesheet' type='text/css' href='elements.css'/>
+    <script type='text/javascript' src='js/form.js'></script>
+    <script type='text/javascript' src='https://api.tomtom.com/maps-sdk-js/4.46.3/examples/sdk/tomtom.min.js'></script>
+</head>
+<body class='use-all-space'>
+    <div id='map' class='use-all-space'></div>
+    <script>
+        // Define your product name and version
+        tomtom.setProductInfo('InsuranceTraveler', '1.0');
+        var map, marker;
+        // Setting TomTom keys
+        tomtom.key('GMIcAmizjwzwUGlnG629ErXCOri9GWdi');
+        tomtom.searchKey('GMIcAmizjwzwUGlnG629ErXCOri9GWdi');
+
+        //Creating the map
+        map = tomtom.map('map', {
+            source: 'vector',
+            basePath: 'https://api.tomtom.com/maps-sdk-js/4.46.3/examples/sdk'
+        }).setView([37.773972, -122.431297], 14);
+
+        // Adding marker to the map
+        marker = tomtom.L.marker([37.773972, -122.431297], {
+            draggable: true
+        }).bindPopup('Child 1').addTo(map);
+        marker2 = tomtom.L.marker([37.772972, -122.430297], {
+            draggable: true
+        }).bindPopup('Child 2').addTo(map);
+        marker3 = tomtom.L.marker([37.763972, -122.421297], {
+            draggable: true
+        }).bindPopup('Child 3').addTo(map);
+        marker4 = tomtom.L.marker([37.774972, -122.432297], {
+            draggable: true
+        }).bindPopup('Child 4').addTo(map);
+
+        // Show popup each time the marker is moved
+        marker.on('dragend', function(e) {
+            tomtom.reverseGeocode({position: e.target.getLatLng()})
+                .go(function(response) {
+                    if (response && response.address && response.address.freeformAddress) {
+                        marker.setPopupContent(response.address.freeformAddress);
+                    } else {
+                        marker.setPopupContent('No results found');
+                    }
+                    marker.openPopup();
+                });
+        });
+    </script>
+</body>
+</html>
